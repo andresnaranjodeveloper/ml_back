@@ -1,0 +1,27 @@
+{
+  "name": "ml_back",
+  "version": "1.0.0",
+  "description": "Mercado Libre - Test Práctico - Backend",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andresnaranjodeveloper/ml_back.git"
+  },
+  "keywords": [],
+  "author": "Andrés Camilo Naranjo Vargas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andresnaranjodeveloper/ml_back/issues"
+  },
+  "homepage": "https://github.com/andresnaranjodeveloper/ml_back#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.11.1"
+  }
+}
