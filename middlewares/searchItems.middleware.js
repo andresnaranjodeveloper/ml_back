@@ -5,29 +5,30 @@ const { itemAxios, getItem, logSave } = require("../helpers");
 const searchItems = async (req, res = response, next) => {
   const { q } = req.query;
   if(!q){
-    logSave(400, msg, 'itemDetail');
-    return res.status(400).json({message: 'The query parameter q, is not defined'});
+    const message = 'The query parameter q, is not defined';
+    logSave(400, message, 'itemDetail');
+    return res.status(400).json({message});
   }
   try {
-    const author = { name: "Andrés Camilo", lasname: "Naranjo Vargas" };
+    const author = { name: "Andrés Camilo", lastname: "Naranjo Vargas" };
 
-    const result = await getItem(`/sites/MLA/search?q=${q}`);
+    const result = await itemAxios.get(`/sites/MLA/search?q=${q}`);
 
     const {
-      data: { results, filters },
-    } = result;
+      results, filters
+    } = result.data;
 
-    const { values } = filters[0];
+    let categoryFilter = filters.length > 0 ? filters[0].values[0].path_from_root : [];
 
     req.search = {
       author,
-      categories: categories(values[0].path_from_root),
+      categories: categories(categoryFilter),
       items: items(results),
     };
     next();
-  } catch ({ response: { data } }) {
-    logSave(data.status, data, 'searchItems');
-    return res.status(data.status).json({ errors: data });
+  } catch (error) {
+    logSave(404, error.response, 'searchItems');
+    return res.status(404).json({ errors: error.response });
   }
 };
 
@@ -53,7 +54,7 @@ const items = (results) => {
         amount: prices[0].amount,
         decimals: price,
       },
-      pitcture: thumbnail,
+      picture: thumbnail,
       condition,
       free_shipping,
     };

@@ -28,7 +28,7 @@ const itemDetail = async (req, res = response, next) => {
     return res.status(400).json({message});
   }
   try {
-    const author = { name: "Andrés Camilo", lasname: "Naranjo Vargas" };
+    const author = { name: "Andrés Camilo", lastname: "Naranjo Vargas" };
 
     const item = await getItem(`/items/${id}`);
 
@@ -45,9 +45,9 @@ const itemDetail = async (req, res = response, next) => {
       itemInfo
     };
     next();
-  } catch ({ response: {  status, data } }) {
-    logSave(status, data, 'itemDetail');
-    return res.status(status).json({ errors: data });
+  } catch (error) {
+    logSave(404, error.response, 'itemDetail');
+    return res.status(404).json({ errors: error.response });
   }
 }
 
